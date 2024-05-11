@@ -8,12 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/***
- Project Name: BloodBank
- Project Date: 10/22/18
- Created by: imshakil
- Email: mhshakil_ice_iu@yahoo.com
- ***/
 
 public class DownloadUrl {
 

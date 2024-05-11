@@ -3,20 +3,23 @@ package com.android.iunoob.bloodbank.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.iunoob.bloodbank.R;
 import com.android.iunoob.bloodbank.fragments.AboutUs;
@@ -93,24 +96,35 @@ public class Dashboard extends AppCompatActivity
         Query singleuser = userdb_ref.child(cur_user.getUid());
         pd.show();
         singleuser.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //pd.show();
-                String name = dataSnapshot.getValue(UserData.class).getName();
-
-                getUserName.setText(name);
-                getUserEmail.setText(cur_user.getEmail());
-
+                // Log data snapshot and its content
+                Log.d("Dashboard", "Data snapshot exists: " + dataSnapshot.exists());
+                if (dataSnapshot.exists()) {
+                    UserData userData = dataSnapshot.getValue(UserData.class);
+                    if (userData != null) {
+                        getUserName.setText(userData.getName());
+                        getUserEmail.setText(cur_user.getEmail());
+                    } else {
+                        Log.e("Dashboard", "UserData is null");
+                    }
+                } else {
+                    Log.e("Dashboard", "Data snapshot is empty");
+                    Toast.makeText(getApplicationContext(), "Database is empty now!", Toast.LENGTH_LONG).show();
+                }
                 pd.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("User", databaseError.getMessage());
-
+                Log.e("Dashboard", "Database error: " + databaseError.getMessage());
+                pd.dismiss();
             }
         });
+
+
+
+
 
 
         if(savedInstanceState == null)

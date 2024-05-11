@@ -1,16 +1,24 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services' // Make sure this is declared earlier
 
 android {
-    compileSdkVersion 28
+    // Specify the namespace if not already set
+    namespace "com.android.iunoob.bloodbank"
+
+    // Update compileSdkVersion to at least 34
+    compileSdkVersion 34
+
     defaultConfig {
         applicationId "com.android.iunoob.bloodbank"
-        minSdkVersion 17
-        targetSdkVersion 28
+        minSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnit4"
         multiDexEnabled true
     }
+
+    // Additional configurations
     lintOptions {
         abortOnError false
     }
@@ -22,26 +30,33 @@ android {
     }
 }
 
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:design:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // AndroidX dependencies
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // Corrected dependency name
+    implementation 'com.google.android.material:material:1.12.0'
 
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-database:16.0.3'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
-    implementation 'com.android.support:multidex:1.0.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
-    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    // AndroidX Espresso testing library
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Add other necessary dependencies as well
+    // Testing dependencies
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Firebase dependencies (consider updating versions if needed)
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-database:21.0.0'
+    implementation 'com.google.firebase:firebase-auth:23.0.0'
+
+    // Google Play Services dependencies (consider updating versions if needed)
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.2.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
 }
-
-apply plugin: 'com.google.gms.google-services'
